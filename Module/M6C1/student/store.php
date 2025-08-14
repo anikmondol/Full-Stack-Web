@@ -1,70 +1,4 @@
 <?php
-
-
-// INSERT INTO `students`(`id`, `name`, `email`, `bod`, `age`, `status`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')
-
-
-// require_once "../db/conniption.php";
-
-
-
-// function store(array $data){
-
-//     global $conn;
-//     studentDataValidation($data, $conn);
-
-
-
-
-// }
-
-
-// function studentDataValidation(array $data, $conn){
-
-//     if(isset($data['name'])){
-//         if (empty($data['name'])) {
-//             echo "Name is Required";
-//             return false;
-//         }
-//     }
-
-
-//   if(isset($data['email'])){
-//          if (empty($data['email'])) {
-//             echo "Email is Required";
-//             return false;
-//         }
-
-//         $checkEmail = "SELECT * FROM `students` WHERE email = ".$data['email'];
-
-//        $result = $conn->query($checkEmail);
-
-//         if ($result->fetch_assoc()) {
-//              echo "Email already exists";
-//         }else{
-//             echo 22;
-//         }
-
-//     }
-
-// }
-
-
-
-// $data = [
-
-//     'name' => "anik",
-//     "email" => "anik@gmail.com",
-//     'dob' => "04-10-2000",
-//     "age" => 25,
-//     'status' => true,
-
-// ];
-
-
-// store($data)
-
-
 require_once "../db/conniption.php";
 
 function store(array $data)
@@ -72,15 +6,18 @@ function store(array $data)
     global $conn;
     studentDataValidation($data, $conn);
 
+    // ✅ Date format convert
+    if (!empty($data['bod'])) {
+        $data['bod'] = date('Y-m-d', strtotime($data['bod']));
+    }
 
     $sqlQuery = $conn->prepare(
         "INSERT INTO `students` (`name`, `email`, `bod`, `age`, `status`) 
-     VALUES (?, ?, ?, ?, ?)"
+         VALUES (?, ?, ?, ?, ?)"
     );
 
-    // Bind parameters for all 5 placeholders
     $sqlQuery->bind_param(
-        "sssii", // s = string, i = integer
+        "sssii",
         $data['name'],
         $data['email'],
         $data['bod'],
@@ -97,20 +34,17 @@ function store(array $data)
 
 function studentDataValidation(array $data, $conn)
 {
-    // Name validation
     if (isset($data['name']) && empty($data['name'])) {
         echo "Name is Required";
         return false;
     }
 
-    // Email validation
     if (isset($data['email'])) {
         if (empty($data['email'])) {
             echo "Email is Required";
             return false;
         }
 
-        // Prepared statement to avoid SQL injection
         $sqlQuery = $conn->prepare("SELECT * FROM `students` WHERE email = ?");
         $sqlQuery->bind_param("s", $data['email']);
         $sqlQuery->execute();
@@ -120,15 +54,16 @@ function studentDataValidation(array $data, $conn)
             die("Email already exists");
         }
     }
+    return true;
 }
 
 // Example data
 $data = [
-    'name' => "anik",
-    'email' => "anik@gmail.com",
-    'dob' => "04-10-2000",
-    'age' => 25,
-    'status' => true,
+    'name' => "anikadasdfdasd2",
+    'email' => "anik2@gmasffdsfadfdasdfasdfdfaasdfilda.com",
+    'bod' => "04-10-2000", // DD-MM-YYYY
+    'age' => 24,
+    'status' => 0,
 ];
 
 store($data);
