@@ -10,8 +10,8 @@ $database = "student";
 
 try {
   $conn = new mysqli($localhost, $username, $password, $database);
-} catch (\Throwable $e) {
-    echo $e->getMessage();
+} catch (Exception $e) {
+  echo $e->getMessage();
 }
 
 
@@ -24,5 +24,3 @@ try {
 
 
 // echo "Connoted";
-
-?>
