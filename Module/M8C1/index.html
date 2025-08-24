@@ -69,7 +69,7 @@
     <!-- this audio tag -->
 
 
-    <audio controls src="./test-audio.mp3" type="audio/mpeg" ></audio>
+    <audio controls src="./test-audio.mp3" type="audio/mpeg"></audio>
 
 
     <!-- this video tag -->
@@ -78,22 +78,60 @@
 
 
     <table border="1px" cellspacing="0px" cellpadding="10px">
-        <tr>
-            <th>name</th>
-            <th>age</th>
-            <th>city</th>
-        </tr>
-        <tr>
-            <td>abc</td>
-            <td>20</td>
-            <td>pune</td>
-        </tr>
-        <tr>
-            <td>xyz</td>
-            <td>22</td>
-            <td>mumbai</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>age</th>
+                <th>city</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>abc</td>
+                <td>20</td>
+                <td>pune</td>
+            </tr>
+            <tr>
+                <td>xyz</td>
+                <td>22</td>
+                <td>mumbai</td>
+            </tr>
+        </tbody>
     </table>
+
+
+    <hr>
+
+    <form action="" method="post" enctype="multipart/form-data">
+
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        <br><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" placeholder="Enter your age" required>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <br><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        <br><br>
+
+        <label for="profile-pic">Profile Picture:</label>
+        <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
+        <br><br>
+
+        <input type="submit" value="Submit">
+
+    </form>
 
 </body>
 
