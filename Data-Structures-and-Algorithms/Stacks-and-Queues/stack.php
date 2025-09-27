@@ -1,13 +1,16 @@
 <?php
-class Stack {
-    private $stack = [];
 
-    // Push an element onto the stack
+class Stack {
+    private $stack = []; // Stack elements রাখার জন্য array
+
+    // ------------------- Push -------------------
+    // নতুন element add করা stack এর উপরে
     public function push($item) {
         array_push($this->stack, $item);
     }
 
-    // Pop an element from the stack
+    // ------------------- Pop -------------------
+    // Stack এর top element remove করে return করা
     public function pop() {
         if ($this->isEmpty()) {
             return "Stack is empty!";
@@ -15,44 +18,55 @@ class Stack {
         return array_pop($this->stack);
     }
 
-    // Peek top element
+    // ------------------- Peek -------------------
+    // Stack এর top element দেখানো (remove না করে)
     public function peek() {
         if ($this->isEmpty()) {
             return "Stack is empty!";
         }
-        // return end($this->stack);
-          return $this->stack[count($this->stack) - 1];
+        return $this->stack[count($this->stack) - 1];
     }
 
-    // Check if stack is empty
+    // ------------------- isEmpty -------------------
+    // Stack খালি কি না check করা
     public function isEmpty() {
         return empty($this->stack);
     }
 
-    // Display stack
+    // ------------------- Display -------------------
+    // পুরো stack print করা
     public function display() {
         return $this->stack;
     }
 }
 
-// Example usage:
+// ------------------- Example Usage -------------------
 $stack = new Stack();
+
+// Push elements
 $stack->push("A");
 $stack->push("B");
 $stack->push("C");
 
 echo "Stack: ";
 print_r($stack->display());
-
 echo "<br>";
-echo "Top: " . $stack->peek() ;
-// echo "<br>";
-// echo "Popped: " . $stack->pop();
-// echo "<br>";
-// echo "Stack after pop: ";
-// echo "<br>";
-// print_r($stack->display());
 
+// Peek top element
+echo "Top: " . $stack->peek();
+echo "<br>";
 
-## LIFO Last In First Out
+// Pop element
+echo "Popped: " . $stack->pop();
+echo "<br>";
+
+// Stack after pop
+echo "Stack after pop: ";
+print_r($stack->display());
+echo "<br>";
+
+// Check if stack is empty
+echo $stack->isEmpty() ? "Stack is empty" : "Stack is not empty";
+echo "<br>";
+
 ?>

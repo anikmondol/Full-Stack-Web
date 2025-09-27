@@ -1,14 +1,9 @@
 <?php
 
-
 class Node
 {
-
-
     public $data;
-
     public $next;
-
 
     public function __construct($value)
     {
@@ -17,11 +12,8 @@ class Node
     }
 }
 
-
-
 class LinkList
 {
-
     public $head;
 
     public function __construct()
@@ -29,27 +21,57 @@ class LinkList
         $this->head = null;
     }
 
-
-    // 👉 Insert a node at the END of the linked list
+    // 👉 Insert at END
     public function insert($data)
     {
-        $newNode = new Node($data); // Step 1: Create a new node
+        $newNode = new Node($data);
 
-        // Case 1: If list is empty, make the new node the head
         if ($this->head == null) {
             $this->head = $newNode;
-        }
-        // Case 2: Otherwise, traverse to the end and add it there
-        else {
-            $current = $this->head; // Start from head
-            while ($current->next != null) { // Keep going until the last node
+        } else {
+            $current = $this->head;
+            while ($current->next != null) {
                 $current = $current->next;
             }
-            $current->next = $newNode; // Link last node to the new node
+            $current->next = $newNode;
         }
     }
 
+    // 👉 Insert at BEGINNING
+    public function insertAtBeginning($data)
+    {
+        $newNode = new Node($data);
+        $newNode->next = $this->head;
+        $this->head = $newNode;
+    }
 
+    // 👉 Insert at SPECIFIC POSITION (0-based index)
+    public function insertAtPosition($data, $position)
+    {
+        $newNode = new Node($data);
+
+        if ($position == 0) {
+            $newNode->next = $this->head;
+            $this->head = $newNode;
+            return;
+        }
+
+        $current = $this->head;
+        $count = 0;
+
+        while ($current != null && $count < $position - 1) {
+            $current = $current->next;
+            $count++;
+        }
+
+        if ($current == null) {
+            echo "Invalid position\n";
+            return;
+        }
+
+        $newNode->next = $current->next;
+        $current->next = $newNode;
+    }
 
     // 👉 Delete a node by value
     public function delete($key)
@@ -57,76 +79,116 @@ class LinkList
         $current = $this->head;
         $prev = null;
 
-        // Case 1: If the node to delete is the head
         if ($current != null && $current->data == $key) {
-            $this->head = $current->next; // Move head to next node
-            return; // Node deleted
+            $this->head = $current->next;
+            return;
         }
 
-        // Case 2: Search for the node to be deleted (keep track of previous node)
         while ($current != null && $current->data != $key) {
             $prev = $current;
             $current = $current->next;
         }
 
-        // If node not found
         if ($current == null) return;
 
-        // Case 3: Node found → skip it by connecting previous node to next node
         $prev->next = $current->next;
     }
 
-
-
-    // 👉 Search for a node by value
+    // 👉 Search for a value
     public function search($key)
     {
         $current = $this->head;
-
-        // Traverse the list
         while ($current != null) {
-            if ($current->data == $key) { // Match found
-                return true;
-            }
-            $current = $current->next; // Move to next node
+            if ($current->data == $key) return true;
+            $current = $current->next;
         }
-        return false; // Not found
+        return false;
     }
 
+    // 👉 Count nodes
+    public function countNodes()
+    {
+        $count = 0;
+        $current = $this->head;
+        while ($current != null) {
+            $count++;
+            $current = $current->next;
+        }
+        return $count;
+    }
 
+    // 👉 Reverse linked list
+    public function reverse()
+    {
+        $prev = null;
+        $current = $this->head;
+        $next = null;
 
+        while ($current != null) {
+            $next = $current->next;
+            $current->next = $prev;
+            $prev = $current;
+            $current = $next;
+        }
+
+        $this->head = $prev;
+    }
+
+    // 👉 Display list
     public function display()
     {
         $current = $this->head;
-
-        // Traverse and print each node
         while ($current != null) {
             echo $current->data . " -> ";
-            $current = $current->next; // Move to next node
+            $current = $current->next;
         }
-        echo "NULL\n"; // End of list
+        echo "NULL\n";
     }
 }
-
 
 
 // ---------------- Example Usage ----------------
 $list = new LinkList();
 
-// Insert elements
+// Insert elements at END
 $list->insert(10);
 $list->insert(20);
 $list->insert(30);
-$list->insert(60);
-
-$list->display();
-
+$list->insert(40);
+$list->display();  // 10 -> 20 -> 30 -> 40 -> NULL
 
 echo "<br>";
-// Delete elements
-$list->delete(20);
-$list->display();
 
+// Insert at BEGINNING
+$list->insertAtBeginning(5);
+$list->display();  // 5 -> 10 -> 20 -> 30 -> 40 -> NULL
 
 echo "<br>";
-echo $list->search(60)? "Found" : "Not Found";
+
+// Insert at POSITION
+$list->insertAtPosition(25, 3);
+$list->display();  // 5 -> 10 -> 20 -> 25 -> 30 -> 40 -> NULL
+
+// echo "<br>";
+
+// // Delete node
+// $list->delete(25);
+// $list->display();  // 5 -> 10 -> 20 -> 30 -> 40 -> NULL
+
+// echo "<br>";
+
+// // Search
+// echo $list->search(30) ? "Found" : "Not Found"; // Found
+// echo "<br>";
+// echo $list->search(100) ? "Found" : "Not Found"; // Not Found
+
+// echo "<br>";
+
+// // Count nodes
+// echo "Total Nodes: " . $list->countNodes(); // 5
+
+// echo "<br>";
+
+// // Reverse list
+// $list->reverse();
+// $list->display();  // 40 -> 30 -> 20 -> 10 -> 5 -> NULL
